@@ -24,6 +24,10 @@ vec3 add(vec3 a, vec3 b) {
   return new;
 }
 
+float dot(vec3 a, vec3 b) {
+  return a.x*b.x + a.y*b.y + a.z*b.z;
+}
+
 void immediate_begin() {
   glBegin(GL_TRIANGLES);
 }
@@ -71,7 +75,7 @@ void startGameLoop(AppContext context) {
     }
 }
 
-int main(int* argc, char** argv) {
+int main(int argc, char** argv) {
     // print info
     SDL_version ver = {0,0,0};
     SDL_GetVersion(&ver);
@@ -82,15 +86,16 @@ int main(int* argc, char** argv) {
     checkSDLError(SDL_Init(SDL_INIT_VIDEO));
 
     // SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
-    appCtx.window = SDL_CreateWindow("pigame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1662, 764, SDL_WINDOW_OPENGL);
+    appCtx.window = SDL_CreateWindow("pigame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 1024, SDL_WINDOW_OPENGL);
+
     if (appCtx.window == NULL) {
       printf("Failed to create window: %s\n", SDL_GetError());
       return 1;
     }
     appCtx.glContext = SDL_GL_CreateContext(appCtx.window);
-    //checkSDLError(SDL_GL_MakeCurrent(appCtx.window, appCtx.glContext));
+    checkSDLError(SDL_GL_MakeCurrent(appCtx.window, appCtx.glContext));
 
     // game loop
     startGameLoop(appCtx);
